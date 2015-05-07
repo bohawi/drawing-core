@@ -1,0 +1,19 @@
+{
+	"name": "drawing",
+	"version": "0.0.0",
+	"main": ["dist/drawing-amd.js", "dist/css/drawing-responsive.css"],
+	"ignore": ["doc","lib","src","test","utils",".gitignore",".jshintrc","Gruntfile.js","README.md","app.js","index.html"],
+	"private": true,
+	"dependencies" : {
+		"jquery": "jquery#1"
+	},
+    "devDependencies": {
+		"blanket": "blanket#",
+		"qunit": "qunit#1.14.0",
+		"almond": "0.2.9",
+		"requirejs": "2.1.16"
+    },
+    "resolutions": {
+        "requirejs": "2.1.16"
+    }
+}
