@@ -1,7 +1,7 @@
 {
 	"name": "drawing",
 	"title": "drawing",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "the core module for drawing stuff",
 	"homepage": "https://github.exacttarget.com/ETElements/drawing",
 	"generator": "0.14.0",
