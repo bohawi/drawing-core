@@ -6,6 +6,8 @@ function ($) {
 	var Drawing = function (element, options) {
 
 		this.$element = $(element);
+		this.$canvas = $('<canvas />');
+		this.$ctx = this.$canvas.getContext('2d');
 		this.options = options;
 
 	};
@@ -51,6 +53,46 @@ function ($) {
 			this.$element.trigger('destroyed.fu.drawing');
 		},
 
+		getElement: function getElement() {
+			return this.$canvas;
+		},
+
+		/**
+		 * Create a quadratic brush stroke - only supports a single control-point
+		 * @param {Object} options
+		 * @param {Array} options.startPoint [x,y] starting coordinates
+		 * @param {Array} options.endPoint [x,y] ending coordinates
+		 * @param {Array} options.controlPoint [x,y] control point coordinates
+		 * @param {Function} options.formula The formula used to create the curve
+		 * @param {Number} options.startRadius
+		 * @param {Number} options.endRadius
+		 * @param {String} options.color
+		 */
+		_drawQuadratic: function _drawQuadratic(options) {
+			var startPoint = options.startPoint;
+			var endPoint = options.endPoint;
+			var controlPoint = options.controlPoint;
+			var iterator = 1 / (options.iterator || Math.max(this.options.height, this.options.width));
+			var x;
+			var y;
+			var radius;
+
+			for (var i = 0; i <= 1; i += iterator) {
+				x = this._formula(i, startPoint[0], controlPoint[0], endPoint[0]);
+				y = this._formula(i, startPoint[1], controlPoint[1], endPoint[1]);
+				radius = options.startRadius + (options.endRadius - options.startRadius) * i;
+
+				this._paint({
+					centerX: x,
+					centerY: y,
+					radius: radius,
+					color: options.color
+				});
+			}
+
+			return this;
+		},
+
 		/**
 		 * First derivative of quadratic formula - Find the tangent slope
 		 * @param {Number} t 0-1
@@ -74,6 +116,21 @@ function ($) {
 
 			return p0 * Math.pow(x, 2) + 2 * p1 * x * t + p2 * Math.pow(t, 2);
 			// return (1 - t) * (1 - t) * p0 + 2 * (1 - t) * t * p1 + t * t * p2;
+		},
+
+		/**
+		 * Draw a circle
+		 * @param {Object} options
+		 * @param {Number} options.centerX
+		 * @param {Number} options.centerY
+		 * @param {Number} options.radius
+		 * @param {String} options.color
+		 */
+		_paint: function _paint(options) {
+			this.ctx.beginPath();
+			this.ctx.arc(options.centerX, options.centerY, options.radius, 0, 2 * Math.PI, false);
+			this.ctx.fillStyle = options.color || this.options.color;
+			this.ctx.fill();
 		}
 	};
 

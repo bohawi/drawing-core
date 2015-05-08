@@ -39,7 +39,24 @@ define(['drawing-logic', 'jquery'], function (Drawing, $) {
 		return (methodReturn === undefined) ? $set : methodReturn;
 	};
 
-	$.fn.drawing.defaults = {};
+	$.fn.drawing.defaults = {
+		// controlPointWeight: 1,
+		color: '#e67c2e',
+		controlPoint: 'se',
+		endPoint: 'ne',
+		endRadius: 1.5,
+		height: 200,
+		outlineColor: '#ffffff',
+		paddingBottom: 5,
+		paddingLeft: 5,
+		paddingRight: 5,
+		paddingTop: 5,
+		shape: 'arrow',
+		startPoint: 'sw',
+		startRadius: 2,
+		target: void 0,
+		width: 200
+	};
 
 	$.fn.drawing.Constructor = Drawing;
 

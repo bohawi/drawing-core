@@ -9,9 +9,9 @@
 		"full": {
 			"options": {
 				"urls": [
-					
-					
-					
+
+
+
 					"http://localhost:&lt;%= express.server.options.port %&gt;/test/index.html?jquery=1.11&coverage=true&gruntReport","http://localhost:&lt;%= express.server.options.port %&gt;/test/index.html?jquery=2.0&coverage=true&gruntReport","http://localhost:&lt;%= express.server.options.port %&gt;/test/index.html?jquery=2.1&coverage=true&gruntReport"
 				],
 				"threshold": 95
@@ -37,19 +37,19 @@
 				"wrap": false,
 				"paths": {
 					"jquery": "empty:",
-					
-					
-					
-					
-					
-					
-					
+
+
+
+
+
+
+
 					"drawing": "drawing-plugin",
 					"drawing-logic": "drawing-logic"
 				},
 				"exclude": ["jquery"],
 				"shim": {
-					
+
 				},
 				"stubModules": ["text"]
 			}
@@ -67,19 +67,19 @@
 				"paths": {
 					"almond": "../bower_components/almond/almond",
 					"jquery": "empty:",
-					
-					
-					
-					
-					
-					
-					
+
+
+
+
+
+
+
 					"drawing": "drawing-plugin",
 					"drawing-logic": "drawing-logic"
 				},
 				"exclude": ["jquery"],
 				"shim": {
-					
+
 				},
 				"stubModules": ["text"]
 			}
