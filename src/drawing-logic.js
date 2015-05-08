@@ -7,8 +7,11 @@ function ($) {
 
 		this.$element = $(element);
 		this.$canvas = $('<canvas />');
-		this.$ctx = this.$canvas.getContext('2d');
+		this.canvas = this.$canvas[0];
+		this.ctx = this.canvas.getContext('2d');
 		this.options = options;
+
+		this._setResolution();
 
 	};
 
@@ -55,6 +58,52 @@ function ($) {
 
 		getElement: function getElement() {
 			return this.$canvas;
+		},
+
+		_directionMap: function _directionMap(direction, options) {
+			var pb;
+			var pl;
+			var pr;
+			var pt;
+			var w;
+			var h;
+
+			options = options || {};
+
+			if (options.noPadding) {
+				options.paddingBottom = 0;
+				options.paddingLeft = 0;
+				options.paddingRight = 0;
+				options.paddingTop = 0;
+			}
+
+			pb = options.paddingBottom || this.options.paddingBottom;
+			pl = options.paddingLeft || this.options.paddingLeft;
+			pr = options.paddingRight || this.options.paddingRight;
+			pt = options.paddingTop || this.options.paddingTop;
+			w = this.options.width;
+			h = this.options.height;
+
+			switch (direction) {
+			case 'nw':
+				return [pl, pt];
+			case 'n':
+				return [w / 2, pt];
+			case 'ne':
+				return [w - pr, pt];
+			case 'e':
+				return [w - pr, h / 2];
+			case 'se':
+				return [w - pr, h - pb];
+			case 's':
+				return [w / 2, h - pb];
+			case 'sw':
+				return [pl, h - pb];
+			case 'w':
+				return [pl, h / 2];
+			default:
+				return false;
+			}
 		},
 
 		/**
@@ -131,6 +180,41 @@ function ($) {
 			this.ctx.arc(options.centerX, options.centerY, options.radius, 0, 2 * Math.PI, false);
 			this.ctx.fillStyle = options.color || this.options.color;
 			this.ctx.fill();
+		},
+
+		/**
+		 * To support high dpi screens we have to render at the size of the screen and resize down to display size
+		 * Code inspired by http://www.html5rocks.com/en/tutorials/canvas/hidpi/
+		 */
+		_setResolution: function _setResolution() {
+			var $canvas = this.$canvas;
+			var canvas = this.canvas;
+			var ctx = this.ctx;
+
+			$canvas.removeAttr('style');
+			var displayHeight = this.options.height;
+			var displayWidth = this.options.width;
+			var devicePixelRatio = window.devicePixelRatio || 1;
+			var backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
+					ctx.mozBackingStorePixelRatio ||
+					ctx.msBackingStorePixelRatio ||
+					ctx.oBackingStorePixelRatio ||
+					ctx.backingStorePixelRatio || 1;
+			var ratio = devicePixelRatio / backingStoreRatio;
+			var doScale = devicePixelRatio !== backingStoreRatio;
+
+			canvas.height = displayHeight * ratio;
+			canvas.width = displayWidth * ratio;
+
+			canvas.style.width = displayWidth + 'px';
+			canvas.style.height = displayHeight + 'px';
+
+			if (doScale) {
+				// scale the context to counter the fact that we've manually scaled our canvas element
+				ctx.scale(ratio, ratio);
+			}
+
+			return this;
 		}
 	};
 

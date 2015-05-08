@@ -10,7 +10,7 @@ module.exports = function (grunt) {
 	grunt.initConfig(cfg);
 
 	// WORKFLOW
-	grunt.registerTask('watch-src', ['jshint', 'complexity', 'requirejs:amd', 'requirejs:wrapped', 'regex-replace', 'clean:build', 'uglify']);
+	grunt.registerTask('watch-src', ['jshint',/* 'complexity',*/ 'requirejs:amd', 'requirejs:wrapped', 'regex-replace', 'clean:build', 'uglify']);
 
 	// BUILD
 	grunt.registerTask('validate', ['jshint', 'complexity', 'filenames']);

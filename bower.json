@@ -1,6 +1,6 @@
 {
 	"name": "drawing",
-	"version": "0.0.0",
+	"version": "0.0.12",
 	"main": ["dist/drawing-amd.js", "dist/css/drawing-responsive.css"],
 	"ignore": ["doc","lib","src","test","utils",".gitignore",".jshintrc","Gruntfile.js","README.md","app.js","index.html"],
 	"private": true,
